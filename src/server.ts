@@ -1,12 +1,20 @@
 import cors from 'cors';
 import express from 'express';
-import {sequelize} from './sequelize';
+import {
+  sequelize
+} from './sequelize';
 
-import {FeedRouter} from './controllers/v0/feed/routes/feed.router';
+import {
+  FeedRouter
+} from './controllers/v0/feed/routes/feed.router';
 
 import bodyParser from 'body-parser';
-import {config} from './config/config';
-import {V0_FEED_MODELS} from './controllers/v0/model.index';
+import {
+  config
+} from './config/config';
+import {
+  V0_FEED_MODELS
+} from './controllers/v0/model.index';
 
 
 (async () => {
@@ -18,16 +26,19 @@ import {V0_FEED_MODELS} from './controllers/v0/model.index';
 
   app.use(bodyParser.json());
 
+
   app.use(cors({
-    allowedHeaders: [
-      'Origin', 'X-Requested-With',
-      'Content-Type', 'Accept',
-      'X-Access-Token', 'Authorization',
-    ],
-    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-    origin: '*',
+    origin: '*'
   }));
 
+  // app.use(cors({
+  //   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token", "Authorization"],
+  //   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+  //   origin: '*'
+  // }));
+
+
+ 
   app.use('/', FeedRouter);
 
   // Root URI call
@@ -37,8 +48,8 @@ import {V0_FEED_MODELS} from './controllers/v0/model.index';
 
 
   // Start the Server
-  app.listen( port, () => {
-    console.log( `server running ${config.url}` );
-    console.log( `press CTRL+C to stop server` );
-  } );
+  app.listen(port, () => {
+    console.log(`server running ${config.url}`);
+    console.log(`press CTRL+C to stop server`);
+  });
 })();
