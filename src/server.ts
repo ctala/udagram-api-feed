@@ -1,5 +1,10 @@
 import cors from 'cors';
 import express from 'express';
+import morgan from 'morgan';
+
+
+
+
 import {
   sequelize
 } from './sequelize';
@@ -24,22 +29,19 @@ import {
   const app = express();
   const port = process.env.PORT || 8080;
 
+  app.use(morgan('combined'));
   app.use(bodyParser.json());
 
-
   app.use(cors({
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token", "Authorization"],
+    methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+    preflightContinue: true,
     origin: '*'
   }));
 
-  // app.use(cors({
-  //   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token", "Authorization"],
-  //   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-  //   origin: '*'
-  // }));
 
-
- 
   app.use('/', FeedRouter);
+  // app.use('/api/v0/feed', FeedRouter);
 
   // Root URI call
   // app.get( '/', async ( req, res ) => {
