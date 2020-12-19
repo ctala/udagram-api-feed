@@ -9,9 +9,9 @@ import {
   sequelize
 } from './sequelize';
 
-import {
-  FeedRouter
-} from './controllers/v0/feed/routes/feed.router';
+
+import {IndexRouter} from './controllers/v0/index.router';
+
 
 import bodyParser from 'body-parser';
 import {
@@ -40,13 +40,12 @@ import {
   }));
 
 
-  app.use('/', FeedRouter);
-  // app.use('/api/v0/feed', FeedRouter);
+  app.use('/api/v0/', IndexRouter);
 
   // Root URI call
-  // app.get( '/', async ( req, res ) => {
-  //   res.send( '/api/v0/' );
-  // } );
+  app.get( '/', async ( req, res ) => {
+    res.send( '/api/v0/' );
+  } );
 
 
   // Start the Server

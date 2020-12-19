@@ -30,11 +30,14 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
 router.get('/', async (req: Request, res: Response) => {
   console.log('/api/v0/feed');
   const items = await FeedItem.findAndCountAll({order: [['id', 'DESC']]});
+  console.log(items);
   items.rows.map((item) => {
     if (item.url) {
       item.url = AWS.getGetSignedUrl(item.url);
+      console.log(item);
     }
   });
+  
   res.send(items);
 });
 
@@ -43,6 +46,7 @@ router.get('/:id',
     async (req: Request, res: Response) => {
       const {id} = req.params;
       const item = await FeedItem.findByPk(id);
+      console.log(item);
       res.send(item);
     });
 
@@ -52,6 +56,7 @@ router.get('/signed-url/:fileName',
     async (req: Request, res: Response) => {
       const {fileName} = req.params;
       const url = AWS.getPutSignedUrl(fileName);
+      console.log(url);
       res.status(201).send({url: url});
     });
 
